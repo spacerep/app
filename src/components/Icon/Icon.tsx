@@ -16,6 +16,11 @@ export default class Icon extends Component<IconProps> {
     medium: 'text-2xl'
   }
 
+  constructor (props: IconProps) {
+    super(props)
+    this.handleClick = this.handleClick.bind(this)
+  }
+
   get style () {
     const size = this.sizeStyle[this.props.size]
     const cursor = this.props.onClick && 'cursor-pointer'
