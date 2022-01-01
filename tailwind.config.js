@@ -20,6 +20,12 @@ module.exports = {
       },
       borderColor: {
         primary: '#373737'
+      },
+      fontFamily: {
+        sans: ['Quicksand', 'sans-serif']
+      },
+      fontSize: {
+        xm: '0.82rem'
       }
     }
   },
