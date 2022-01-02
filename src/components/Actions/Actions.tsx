@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Icon from '../Icon/Icon'
+import style from './Actions.style'
 
 export type ActionName = 'add' |
   'view' |
@@ -50,7 +51,7 @@ export default class Actions extends Component<ActionsProps> {
       const handleClick = () => this.props.onClick(action, this.props.id)
       return (
         <div
-          className="ml-2"
+          className={style.action}
           key={action}>
           <Icon
             name={icon.icon}
@@ -63,7 +64,7 @@ export default class Actions extends Component<ActionsProps> {
 
   render () {
     return (
-      <div className="flex">
+      <div className={style.actions}>
         {this.actions}
       </div>
     )
