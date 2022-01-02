@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import topicRepository from '../../repositories/topic.repository'
 import Button from '../Button/Button'
 import Input from '../Input/Input'
 import style from './TopicAdd.style'
@@ -27,9 +28,15 @@ export default class TopicAdd extends Component<TopicAddProps, TopicAddState> {
     this.setState({ title })
   }
 
+  createTopic () {
+    const topic = { title: this.state.title }
+    topicRepository.create(topic).then(() => {
+      this.resetTitle()
+    })
+  }
+
   handleAddClick () {
-    this.resetTitle()
-    // TODO
+    this.createTopic()
   }
 
   render () {
