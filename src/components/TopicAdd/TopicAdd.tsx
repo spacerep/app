@@ -1,16 +1,17 @@
 import React, { Component } from 'react'
-import topicRepository from '../../repositories/topic.repository'
+import { connect, ConnectedProps } from 'react-redux'
+import { createTopic } from '../Topics/Topics.slice'
 import Button from '../Button/Button'
 import Input from '../Input/Input'
 import style from './TopicAdd.style'
 
-interface TopicAddProps {}
+interface TopicAddProps extends ConnectedProps<typeof connector> {}
 
 interface TopicAddState {
   title: string
 }
 
-export default class TopicAdd extends Component<TopicAddProps, TopicAddState> {
+class TopicAdd extends Component<TopicAddProps, TopicAddState> {
   constructor (props: TopicAddProps) {
     super(props)
     this.state = {
@@ -28,14 +29,9 @@ export default class TopicAdd extends Component<TopicAddProps, TopicAddState> {
     this.setState({ title })
   }
 
-  async createTopic () {
-    const topicData = { title: this.state.title }
-    const topic = await topicRepository.create(topicData)
-    if (topic) this.resetTitle()
-  }
-
   handleAddClick () {
-    this.createTopic()
+    this.props.createTopic(this.state.title)
+    this.resetTitle()
   }
 
   render () {
@@ -57,3 +53,9 @@ export default class TopicAdd extends Component<TopicAddProps, TopicAddState> {
     )
   }
 }
+
+const mapDispatch = { createTopic }
+
+const connector = connect(null, mapDispatch)
+
+export default connector(TopicAdd)
