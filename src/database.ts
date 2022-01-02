@@ -5,9 +5,9 @@ export type MediaType = 'video' | 'audio' | 'image'
 export interface TopicData {
   id: number
   title: string
-  notesCount?: number
-  notesLearnedCount?: number
-  repetition?: RepetitionData
+  notesCount: number
+  notesLearnedCount: number
+  repetition: RepetitionData
 }
 
 export type TopicCreationData = Pick<TopicData, 'title'>

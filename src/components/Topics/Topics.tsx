@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { TopicData } from '../../database'
+import topicRepository from '../../repositories/topic.repository'
 import Topic from '../Topic/Topic'
 
 interface TopicsProps {}
@@ -20,34 +21,9 @@ export default class Topics extends Component<TopicsProps, TopicsState> {
     this.handleTopicClick = this.handleTopicClick.bind(this)
   }
 
-  listTopics () {
-    // TODO
-    this.setState({
-      topics: [
-        {
-          id: 1,
-          title: 'C++ Primer',
-          repetition: {
-            topicId: 1,
-            count: 0,
-            nextAt: new Date('Jan 10 2022').toISOString()
-          },
-          notesCount: 10,
-          notesLearnedCount: 6
-        },
-        {
-          id: 2,
-          title: 'English House - Grammer',
-          repetition: {
-            topicId: 2,
-            count: 3,
-            nextAt: new Date('June 19 2022').toISOString()
-          },
-          notesCount: 10,
-          notesLearnedCount: 9
-        }
-      ]
-    })
+  async listTopics () {
+    const topics = await topicRepository.list()
+    if (topics) this.setState({ topics })
   }
 
   isActive (topic: TopicData) {
@@ -56,7 +32,7 @@ export default class Topics extends Component<TopicsProps, TopicsState> {
 
   topic (topic: TopicData) {
     const { repetition, notesCount, notesLearnedCount } = topic
-    return repetition && notesCount && notesLearnedCount &&
+    return (
       <Topic
         key={topic.id}
         id={topic.id}
@@ -67,6 +43,7 @@ export default class Topics extends Component<TopicsProps, TopicsState> {
         notesLearnedCount={notesLearnedCount}
         active={this.isActive(topic)}
         onClick={this.handleTopicClick} />
+    )
   }
 
   setActiveId (activeId: number) {
