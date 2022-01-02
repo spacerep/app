@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Heading from '../Heading/Heading'
 import Progress from '../Progress/Progress'
 import style from './Topic.style'
 
@@ -21,7 +22,7 @@ export default class Topic extends Component<TopicProps> {
     return (
       <div className={this.className}>
         <div className={style.details}>
-          <h3 className={style.title}>{this.props.title}</h3>
+          <Heading text={this.props.title} />
           <div className={style.repsDetails}>
             <h4 className={style.repsCount}>{this.props.reps} reps</h4>
             <small className={style.nextRep}>Next {this.props.nextRepAt}</small>
