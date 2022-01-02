@@ -10,11 +10,15 @@ export interface TopicData {
   repetition?: RepetitionData
 }
 
+export type TopicCreationData = Pick<TopicData, 'title'>
+
 export interface RepetitionData {
   topicId: number
   count: number
   nextAt: string
 }
+
+export type RepetitionCreationData = RepetitionData
 
 export interface NoteData {
   id: number
@@ -24,17 +28,21 @@ export interface NoteData {
   learned: boolean
 }
 
+export type NoteCreationData = Omit<NoteData, 'id'>
+
 export interface MediaData {
   noteId: number
   body: string
   type: MediaType
 }
 
+export type MediaCreationData = MediaData
+
 class Database extends Dexie {
-  topics!: Table<TopicData>
-  repetitions!: Table<RepetitionData>
-  notes!: Table<NoteData>
-  medias!: Table<MediaData>
+  topics!: Table<TopicCreationData, number>
+  repetitions!: Table<RepetitionCreationData>
+  notes!: Table<NoteCreationData, number>
+  medias!: Table<MediaCreationData>
 
   constructor () {
     super('spacerep')
