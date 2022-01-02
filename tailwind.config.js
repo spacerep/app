@@ -26,6 +26,9 @@ module.exports = {
       },
       fontSize: {
         xm: '0.82rem'
+      },
+      height: {
+        input: '35.69px'
       }
     }
   },
