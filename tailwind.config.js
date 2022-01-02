@@ -29,6 +29,9 @@ module.exports = {
       },
       height: {
         input: '35.69px'
+      },
+      transitionProperty: {
+        width: 'width'
       }
     }
   },
