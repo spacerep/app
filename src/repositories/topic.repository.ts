@@ -58,7 +58,9 @@ export default {
 
   async list () {
     try {
-      const topics = await this.topics.toArray() as TopicData[]
+      const topics = await this.topics
+        .reverse()
+        .toArray() as TopicData[]
       return this.withEagerLoadEach(topics)
     } catch (error) {
       return null
