@@ -1,29 +1,24 @@
 import React, { Component } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
 import { TopicData } from '../../database'
-import topicRepository from '../../repositories/topic.repository'
+import { RootState } from '../../store'
+import { listTopics } from './Topics.slice'
 import Topic from '../Topic/Topic'
 
-interface TopicsProps {}
+interface TopicsProps extends ConnectedProps<typeof connector> {}
 
 interface TopicsState {
-  topics: TopicData[]
   activeId: number | null
 }
 
-export default class Topics extends Component<TopicsProps, TopicsState> {
+class Topics extends Component<TopicsProps, TopicsState> {
   constructor (props: TopicsProps) {
     super(props)
     this.state = {
-      topics: [],
       activeId: 0
     }
     this.topic = this.topic.bind(this)
     this.handleTopicClick = this.handleTopicClick.bind(this)
-  }
-
-  async listTopics () {
-    const topics = await topicRepository.list()
-    if (topics) this.setState({ topics })
   }
 
   isActive (topic: TopicData) {
@@ -55,10 +50,17 @@ export default class Topics extends Component<TopicsProps, TopicsState> {
   }
 
   componentDidMount () {
-    this.listTopics()
+    this.props.listTopics()
   }
 
   render () {
-    return this.state.topics.map(this.topic)
+    return this.props.topics.map(this.topic)
   }
 }
+
+const mapState = (state: RootState) => state.topics
+const mapDispatch = { listTopics }
+
+const connector = connect(mapState, mapDispatch)
+
+export default connector(Topics)
