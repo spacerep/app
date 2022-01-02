@@ -28,11 +28,10 @@ export default class TopicAdd extends Component<TopicAddProps, TopicAddState> {
     this.setState({ title })
   }
 
-  createTopic () {
-    const topic = { title: this.state.title }
-    topicRepository.create(topic).then(() => {
-      this.resetTitle()
-    })
+  async createTopic () {
+    const topicData = { title: this.state.title }
+    const topic = await topicRepository.create(topicData)
+    if (topic) this.resetTitle()
   }
 
   handleAddClick () {
