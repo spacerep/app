@@ -1,36 +1,59 @@
 import React, { Component } from 'react'
 import Heading from '../Heading/Heading'
+import datetimeUtil from '../../utils/datetime.util'
 import Progress from '../Progress/Progress'
 import style from './Topic.style'
 
 interface TopicProps {
+  id: number
   title: string
-  reps: number
-  nextRepAt: string
-  totalNotes: number
-  completedNotes: number
+  repetitions: number
+  nextRepetitionAt: string
+  notesCount: number
+  notesLearnedCount: number
   active: boolean
+  onClick: (id: number) => void
 }
 
 export default class Topic extends Component<TopicProps> {
-  get className () {
+  constructor (props: TopicProps) {
+    super(props)
+    this.handleClick = this.handleClick.bind(this)
+  }
+
+  get topicStyle () {
     const active = this.props.active ? 'bg-dark-secondary' : 'bg-dark-primary'
     return `${style.topic} ${active}`
   }
 
+  get relativeNexRepetitionAt () {
+    return datetimeUtil.toRelativeCalendar(this.props.nextRepetitionAt)
+  }
+
+  handleClick () {
+    const { id, onClick } = this.props
+    onClick(id)
+  }
+
   render () {
     return (
-      <div className={this.className}>
+      <div
+        className={this.topicStyle}
+        onClick={this.handleClick}>
         <div className={style.details}>
           <Heading text={this.props.title} />
           <div className={style.repsDetails}>
-            <h4 className={style.repsCount}>{this.props.reps} reps</h4>
-            <small className={style.nextRep}>Next {this.props.nextRepAt}</small>
+            <h4 className={style.repsCount}>
+              {this.props.repetitions} reps
+            </h4>
+            <small className={style.nextRep}>
+              Next {this.relativeNexRepetitionAt}
+            </small>
           </div>
         </div>
         <Progress
-          total={this.props.totalNotes}
-          completed={this.props.completedNotes} />
+          total={this.props.notesCount}
+          completed={this.props.notesLearnedCount} />
       </div>
     )
   }
