@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { toggle } from '../slices/topicAdd.slice'
+import { toggle } from './TopicAdd/TopicAdd.slice'
 import Icon from './Icon/Icon'
 
 interface TopicAddToggleProps extends ConnectedProps<typeof connector> {}
