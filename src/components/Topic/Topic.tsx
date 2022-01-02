@@ -4,16 +4,23 @@ import Progress from '../Progress/Progress'
 import style from './Topic.style'
 
 interface TopicProps {
+  id: number
   title: string
   repetitions: number
   nextRepetitionAt: string
   notesCount: number
   notesLearnedCount: number
   active: boolean
+  onClick: (id: number) => void
 }
 
 export default class Topic extends Component<TopicProps> {
-  get className () {
+  constructor (props: TopicProps) {
+    super(props)
+    this.handleClick = this.handleClick.bind(this)
+  }
+
+  get topicStyle () {
     const active = this.props.active ? 'bg-dark-secondary' : 'bg-dark-primary'
     return `${style.topic} ${active}`
   }
@@ -22,9 +29,16 @@ export default class Topic extends Component<TopicProps> {
     return datetimeUtil.toRelativeCalendar(this.props.nextRepetitionAt)
   }
 
+  handleClick () {
+    const { id, onClick } = this.props
+    onClick(id)
+  }
+
   render () {
     return (
-      <div className={this.className}>
+      <div
+        className={this.topicStyle}
+        onClick={this.handleClick}>
         <div className={style.details}>
           <h3 className={style.title}>
             {this.props.title}

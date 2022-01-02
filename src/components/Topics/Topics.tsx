@@ -17,22 +17,7 @@ export default class Topics extends Component<TopicsProps, TopicsState> {
       activeId: 0
     }
     this.topic = this.topic.bind(this)
-  }
-
-  isActive (topic: TopicData) {
-    return this.state.activeId === topic.id
-  }
-
-  topic (topic: TopicData) {
-    const { repetition, notesCount, notesLearnedCount } = topic
-    return repetition && notesCount && notesLearnedCount &&
-      <Topic
-        title={topic.title}
-        repetitions={repetition.count}
-        nextRepetitionAt={repetition.nextAt}
-        notesCount={notesCount}
-        notesLearnedCount={notesLearnedCount}
-        active={this.isActive(topic)} />
+    this.handleTopicClick = this.handleTopicClick.bind(this)
   }
 
   listTopics () {
@@ -63,6 +48,33 @@ export default class Topics extends Component<TopicsProps, TopicsState> {
         }
       ]
     })
+  }
+
+  isActive (topic: TopicData) {
+    return this.state.activeId === topic.id
+  }
+
+  topic (topic: TopicData) {
+    const { repetition, notesCount, notesLearnedCount } = topic
+    return repetition && notesCount && notesLearnedCount &&
+      <Topic
+        key={topic.id}
+        id={topic.id}
+        title={topic.title}
+        repetitions={repetition.count}
+        nextRepetitionAt={repetition.nextAt}
+        notesCount={notesCount}
+        notesLearnedCount={notesLearnedCount}
+        active={this.isActive(topic)}
+        onClick={this.handleTopicClick} />
+  }
+
+  setActiveId (activeId: number) {
+    this.setState({ activeId })
+  }
+
+  handleTopicClick (activeId: number) {
+    this.setActiveId(activeId)
   }
 
   componentDidMount () {
