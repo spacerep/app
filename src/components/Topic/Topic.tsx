@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Heading from '../Heading/Heading'
 import datetimeUtil from '../../utils/datetime.util'
 import Progress from '../Progress/Progress'
 import style from './Topic.style'
@@ -40,9 +41,7 @@ export default class Topic extends Component<TopicProps> {
         className={this.topicStyle}
         onClick={this.handleClick}>
         <div className={style.details}>
-          <h3 className={style.title}>
-            {this.props.title}
-          </h3>
+          <Heading text={this.props.title} />
           <div className={style.repsDetails}>
             <h4 className={style.repsCount}>
               {this.props.repetitions} reps

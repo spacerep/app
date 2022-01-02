@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Actions, { ActionName } from '../Actions/Actions'
+import Heading from '../Heading/Heading'
 import style from './TopicHeader.style'
 
 interface TopicHeaderProps {
@@ -20,7 +21,7 @@ export default class TopicHeader extends Component<TopicHeaderProps> {
   render () {
     return (
       <div className={style.topicHeader}>
-        <h3 className={style.title}>{this.props.title}</h3>
+        <Heading text={this.props.title} />
         <Actions
           id={this.props.id}
           scope='topic'
