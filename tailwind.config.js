@@ -28,6 +28,7 @@ module.exports = {
         sans: ['Quicksand', 'sans-serif']
       },
       fontSize: {
+        xs: '0.69rem',
         xm: '0.82rem'
       },
       height: {
