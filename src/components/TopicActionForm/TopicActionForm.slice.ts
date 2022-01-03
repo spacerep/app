@@ -13,13 +13,13 @@ export const topicActionFormSlice = createSlice({
   name: 'topicActionForm',
   initialState,
   reducers: {
-    setActiveForm: (state, action) => {
+    toggleActiveForm: (state, action) => {
       const { payload: activeForm } = action
-      state.activeForm = activeForm
+      state.activeForm = state.activeForm === activeForm ? null : activeForm
     }
   }
 })
 
-export const { setActiveForm } = topicActionFormSlice.actions
+export const { toggleActiveForm } = topicActionFormSlice.actions
 
 export default topicActionFormSlice.reducer
