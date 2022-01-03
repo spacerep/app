@@ -5,19 +5,29 @@ import HelperText from '../HelperText/HelperText'
 import Input from '../Input/Input'
 import InputFile from '../InputFile/InputFile'
 import Textarea from '../Textarea/Textarea'
-import style from './NoteAdd.style'
+import style from './NoteModify.style'
 
-interface NoteAddProps {}
+type NoteModifyAction = 'add' | 'edit'
+type NoteModifyActionText = Record<NoteModifyAction, string>
 
-interface NoteAddState {
+interface NoteModifyProps {
+  action: NoteModifyAction
+}
+
+interface NoteModifyState {
   heading: string
   media: File | null
   mediaFilename: string
   note: string
 }
 
-export default class NoteAdd extends Component<NoteAddProps, NoteAddState> {
-  constructor (props: NoteAddProps) {
+export default class NoteModify extends Component<NoteModifyProps, NoteModifyState> {
+  actionTexts: NoteModifyActionText = {
+    add: 'Add note',
+    edit: 'Edit note'
+  }
+
+  constructor (props: NoteModifyProps) {
     super(props)
     this.state = {
       heading: '',
@@ -27,7 +37,11 @@ export default class NoteAdd extends Component<NoteAddProps, NoteAddState> {
     }
     this.handleInputChange = this.handleInputChange.bind(this)
     this.handleInputFileChange = this.handleInputFileChange.bind(this)
-    this.handleAddClick = this.handleAddClick.bind(this)
+    this.handleModifyClick = this.handleModifyClick.bind(this)
+  }
+
+  get actionText () {
+    return this.actionTexts[this.props.action]
   }
 
   handleInputChange (name: string, value: string) {
@@ -41,15 +55,15 @@ export default class NoteAdd extends Component<NoteAddProps, NoteAddState> {
     }
   }
 
-  handleAddClick () {
-    // TODO Handle add click
+  handleModifyClick () {
+    // TODO Handle modify click
   }
 
   render () {
     return (
-      <div className={style.noteAdd}>
+      <div className={style.noteModify}>
         <div className={style.form}>
-          <Heading text='Add note' />
+          <Heading text={this.actionText} />
           <Input
             name='heading'
             value={this.state.heading}
@@ -72,8 +86,8 @@ export default class NoteAdd extends Component<NoteAddProps, NoteAddState> {
               text='Text format: _italic_, *bold*, ~strikethrough~, ```monospace```' />
           </div>
           <Button
-            text="Add note"
-            onClick={this.handleAddClick} />
+            text={this.actionText}
+            onClick={this.handleModifyClick} />
         </div>
       </div>
     )
