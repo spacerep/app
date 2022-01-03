@@ -20,7 +20,8 @@ interface NoteModifyState {
   note: string
 }
 
-export default class NoteModify extends Component<NoteModifyProps, NoteModifyState> {
+export default class NoteModify
+  extends Component<NoteModifyProps, NoteModifyState> {
   actionTexts: NoteModifyActionText = {
     add: 'Add note',
     edit: 'Edit note'
