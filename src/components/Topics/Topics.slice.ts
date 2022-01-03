@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit'
-import { find } from 'lodash'
+import { find, reject } from 'lodash'
 import { TopicData } from '../../database'
 import topicRepository from '../../repositories/topic.repository'
 import { RootState } from '../../store'
@@ -14,15 +14,23 @@ const initialState: TopicsState = {
   activeId: null
 }
 
-export const createTopic = createAsyncThunk('topics/create', async (title: string) => {
-  if (!title) return
-  const topicData = { title }
-  return await topicRepository.create(topicData)
-})
+export const createTopic = createAsyncThunk(
+  'topics/create',
+  async (title: string) => {
+    if (!title) return
+    const topicData = { title }
+    return await topicRepository.create(topicData)
+  })
 
 export const listTopics = createAsyncThunk('topics/list', async () => {
   return await topicRepository.list()
 })
+
+export const deleteTopic = createAsyncThunk(
+  'topics/delete',
+  async (id: number) => {
+    return await topicRepository.delete(id)
+  })
 
 export const isActiveTopic = createSelector(
   [
@@ -59,6 +67,15 @@ export const topicsSlice = createSlice({
     builder.addCase(createTopic.fulfilled, (state, action) => {
       const { payload: topic } = action
       if (topic) state.topics.unshift(topic)
+    })
+    builder.addCase(deleteTopic.fulfilled, (state, action) => {
+      const { payload: topicDeleted } = action
+      if (topicDeleted) {
+        state.topics = reject(
+          state.topics,
+          topic => topic.id === topicDeleted.id
+        )
+      }
     })
   }
 })

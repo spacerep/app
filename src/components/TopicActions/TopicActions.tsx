@@ -1,11 +1,17 @@
 import React, { Component } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { RootState } from '../../store'
+import { deleteTopic } from '../Topics/Topics.slice'
 import Actions, { ActionName } from '../Actions/Actions'
 
 interface TopicActionsProps extends ConnectedProps<typeof connector> {}
 
 class TopicActions extends Component<TopicActionsProps> {
+  constructor (props: TopicActionsProps) {
+    super(props)
+    this.handleActionClick = this.handleActionClick.bind(this)
+  }
+
   handleActionClick (action: ActionName, topicId: number) {
     switch (action) {
       case 'add':
@@ -19,7 +25,7 @@ class TopicActions extends Component<TopicActionsProps> {
       case 'export':
         return null
       case 'delete':
-        return null
+        return this.props.deleteTopic(topicId)
     }
   }
 
@@ -37,6 +43,8 @@ const mapState = (state: RootState) => ({
   activeTopicId: state.topics.activeId
 })
 
-const connector = connect(mapState)
+const mapDispatch = { deleteTopic }
+
+const connector = connect(mapState, mapDispatch)
 
 export default connector(TopicActions)

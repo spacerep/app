@@ -1,11 +1,12 @@
 import Promise from 'bluebird'
-import database, { TopicCreationData, TopicData } from '../database'
+import database, { NoteData, TopicCreationData, TopicData } from '../database'
 import datetimeUtil from '../utils/datetime.util'
 
 export default {
   topics: database.topics,
   repetitions: database.repetitions,
   notes: database.notes,
+  medias: database.medias,
 
   async readRepetition (topic: TopicData) {
     const { id: topicId } = topic
@@ -62,6 +63,22 @@ export default {
         .reverse()
         .toArray() as TopicData[]
       return this.withEagerLoadEach(topics)
+    } catch (error) {
+      return null
+    }
+  },
+
+  async delete (id: number) {
+    try {
+      const topic = await this.topics.get(id)
+      const notesQuery = () => this.notes.where({ topicId: id })
+      const notes = await notesQuery().toArray() as NoteData[]
+      const noteIds = notes.map(note => note.id)
+      await this.medias.where('noteId').anyOf(noteIds).delete()
+      await notesQuery().delete()
+      await this.repetitions.where({ topicId: id }).delete()
+      await this.topics.delete(id)
+      return topic as TopicData
     } catch (error) {
       return null
     }
