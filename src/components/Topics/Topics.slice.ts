@@ -27,7 +27,7 @@ export const isActiveTopic = createSelector(
     (state: RootState) => state.topics.activeId,
     (state: RootState, checkId: number) => checkId
   ],
-  (activeId: number, checkId: number) => checkId === activeId
+  (activeId, checkId) => checkId === activeId
 )
 
 export const topicsSlice = createSlice({
