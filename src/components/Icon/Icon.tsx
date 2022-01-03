@@ -12,8 +12,8 @@ interface IconProps {
 
 export default class Icon extends Component<IconProps> {
   sizeStyles: SizeStyle = {
-    regular: 'text-lg',
-    medium: 'text-xl'
+    regular: 'text-base',
+    medium: 'text-lg'
   }
 
   constructor (props: IconProps) {
