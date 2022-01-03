@@ -13,7 +13,7 @@ export default class Panel extends Component<PanelProps> {
             <Sidebar />
           </div>
           <main className={style.main}>
-            {/* TODO */}
+            {this.props.children}
           </main>
         </div>
       </div>

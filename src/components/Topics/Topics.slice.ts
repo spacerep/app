@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit'
+import { find } from 'lodash'
 import { TopicData } from '../../database'
 import topicRepository from '../../repositories/topic.repository'
 import { RootState } from '../../store'
@@ -28,6 +29,17 @@ export const isActiveTopic = createSelector(
     (state: RootState, checkId: number) => checkId
   ],
   (activeId, checkId) => checkId === activeId
+)
+
+export const activeTopic = createSelector(
+  [
+    (state: RootState) => state.topics.topics,
+    (state: RootState) => state.topics.activeId
+  ],
+  (topics, activeId) => {
+    const topic = find(topics, topic => topic.id === activeId)
+    return topic || null
+  }
 )
 
 export const topicsSlice = createSlice({
