@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 import Button from '../Button/Button'
-import Heading from '../Heading/Heading'
 import HelperText from '../HelperText/HelperText'
 import Input from '../Input/Input'
 import InputFile from '../InputFile/InputFile'
 import Textarea from '../Textarea/Textarea'
-import style from './NoteModify.style'
+import TopicForm from '../TopicForm/TopicForm'
 
 type NoteModifyAction = 'add' | 'edit'
 type NoteModifyActionText = Record<NoteModifyAction, string>
@@ -61,35 +60,32 @@ export default class NoteModify extends Component<NoteModifyProps, NoteModifySta
 
   render () {
     return (
-      <div className={style.noteModify}>
-        <div className={style.form}>
-          <Heading text={this.actionText} />
-          <Input
-            name='heading'
-            value={this.state.heading}
-            placeholder='Heading'
+      <TopicForm heading={this.actionText}>
+        <Input
+          name='heading'
+          value={this.state.heading}
+          placeholder='Heading'
+          onChange={this.handleInputChange} />
+        <InputFile
+          name='media'
+          filename={this.state.mediaFilename}
+          accept='audio/*,video/*,image/*'
+          placeholder='Choose media'
+          onChange={this.handleInputFileChange} />
+        <div>
+          <Textarea
+            name='note'
+            value={this.state.note}
+            placeholder='Note'
+            rows={4}
             onChange={this.handleInputChange} />
-          <InputFile
-            name='media'
-            filename={this.state.mediaFilename}
-            accept='audio/*,video/*,image/*'
-            placeholder='Choose media'
-            onChange={this.handleInputFileChange} />
-          <div>
-            <Textarea
-              name='note'
-              value={this.state.note}
-              placeholder='Note'
-              rows={4}
-              onChange={this.handleInputChange} />
-            <HelperText
-              text='Text format: _italic_, *bold*, ~strikethrough~, ```monospace```' />
-          </div>
-          <Button
-            text={this.actionText}
-            onClick={this.handleModifyClick} />
+          <HelperText
+            text='Text format: _italic_, *bold*, ~strikethrough~, ```monospace```' />
         </div>
-      </div>
+        <Button
+          text={this.actionText}
+          onClick={this.handleModifyClick} />
+      </TopicForm>
     )
   }
 }
