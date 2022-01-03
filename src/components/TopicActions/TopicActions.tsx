@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { RootState } from '../../store'
 import { deleteTopic } from '../Topics/Topics.slice'
+import { setActiveForm } from '../TopicActionForm/TopicActionForm.slice'
 import Actions, { ActionName } from '../Actions/Actions'
 
 interface TopicActionsProps extends ConnectedProps<typeof connector> {}
@@ -15,13 +16,13 @@ class TopicActions extends Component<TopicActionsProps> {
   handleActionClick (action: ActionName, topicId: number) {
     switch (action) {
       case 'add':
-        return null
+        return this.props.setTopicActiveForm('noteAdd')
       case 'visibility':
         return null
       case 'edit':
-        return null
+        return this.props.setTopicActiveForm('topicTitleEdit')
       case 'import':
-        return null
+        return this.props.setTopicActiveForm('notesImport')
       case 'export':
         return null
       case 'delete':
@@ -43,7 +44,10 @@ const mapState = (state: RootState) => ({
   activeTopicId: state.topics.activeId
 })
 
-const mapDispatch = { deleteTopic }
+const mapDispatch = {
+  deleteTopic,
+  setTopicActiveForm: setActiveForm
+}
 
 const connector = connect(mapState, mapDispatch)
 
