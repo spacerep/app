@@ -1,6 +1,6 @@
 import React, { Component, MouseEvent } from 'react'
 
-type IconSize = 'regular' | 'medium'
+export type IconSize = 'regular' | 'medium'
 
 type SizeStyle = Record<IconSize, string>
 
@@ -11,9 +11,9 @@ interface IconProps {
 }
 
 export default class Icon extends Component<IconProps> {
-  sizeStyle: SizeStyle = {
-    regular: 'text-xl',
-    medium: 'text-2xl'
+  sizeStyles: SizeStyle = {
+    regular: 'text-lg',
+    medium: 'text-xl'
   }
 
   constructor (props: IconProps) {
@@ -22,7 +22,7 @@ export default class Icon extends Component<IconProps> {
   }
 
   get style () {
-    const size = this.sizeStyle[this.props.size]
+    const size = this.sizeStyles[this.props.size]
     const cursor = this.props.onClick && 'cursor-pointer'
     return `ri-${this.props.name}-line text-tertiary ${size} ${cursor}`
   }
