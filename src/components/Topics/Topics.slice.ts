@@ -15,6 +15,7 @@ const initialState: TopicsState = {
 }
 
 export const createTopic = createAsyncThunk('topics/create', async (title: string) => {
+  if (!title) return
   const topicData = { title }
   return await topicRepository.create(topicData)
 })
