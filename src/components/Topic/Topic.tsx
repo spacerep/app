@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
-import Heading from '../Heading/Heading'
-import datetimeUtil from '../../utils/datetime.util'
-import Progress from '../Progress/Progress'
+import { connect, ConnectedProps } from 'react-redux'
 import style from './Topic.style'
+import { RootState } from '../../store'
+import datetimeUtil from '../../utils/datetime.util'
+import { isActiveTopic, setActiveId } from '../Topics/Topics.slice'
+import Heading from '../Heading/Heading'
+import Progress from '../Progress/Progress'
 
 interface TopicProps {
   id: number
@@ -11,18 +14,19 @@ interface TopicProps {
   nextRepetitionAt: string
   notesCount: number
   notesLearnedCount: number
-  active: boolean
-  onClick: (id: number) => void
 }
 
-export default class Topic extends Component<TopicProps> {
-  constructor (props: TopicProps) {
+interface TopicCombinedProps
+ extends TopicProps, ConnectedProps<typeof connector> {}
+
+class Topic extends Component<TopicCombinedProps> {
+  constructor (props: TopicCombinedProps) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
   }
 
   get topicStyle () {
-    const active = this.props.active ? 'bg-dark-secondary' : 'bg-dark-primary'
+    const active = this.props.isActive ? 'bg-dark-secondary' : 'bg-dark-primary'
     return `${style.topic} ${active}`
   }
 
@@ -31,8 +35,7 @@ export default class Topic extends Component<TopicProps> {
   }
 
   handleClick () {
-    const { id, onClick } = this.props
-    onClick(id)
+    this.props.setActiveId(this.props.id)
   }
 
   render () {
@@ -58,3 +61,18 @@ export default class Topic extends Component<TopicProps> {
     )
   }
 }
+
+const mapState = (state: RootState) => {
+  return (state: RootState, props: TopicProps) => {
+    return {
+      activeId: state.topics.activeId,
+      isActive: isActiveTopic(state, props.id)
+    }
+  }
+}
+
+const mapDispatch = { setActiveId }
+
+const connector = connect(mapState, mapDispatch)
+
+export default connector(Topic)

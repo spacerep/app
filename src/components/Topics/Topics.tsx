@@ -7,22 +7,10 @@ import Topic from '../Topic/Topic'
 
 interface TopicsProps extends ConnectedProps<typeof connector> {}
 
-interface TopicsState {
-  activeId: number | null
-}
-
-class Topics extends Component<TopicsProps, TopicsState> {
+class Topics extends Component<TopicsProps> {
   constructor (props: TopicsProps) {
     super(props)
-    this.state = {
-      activeId: 0
-    }
     this.topic = this.topic.bind(this)
-    this.handleTopicClick = this.handleTopicClick.bind(this)
-  }
-
-  isActive (topic: TopicData) {
-    return this.state.activeId === topic.id
   }
 
   topic (topic: TopicData) {
@@ -35,18 +23,8 @@ class Topics extends Component<TopicsProps, TopicsState> {
         repetitions={repetition.count}
         nextRepetitionAt={repetition.nextAt}
         notesCount={notesCount}
-        notesLearnedCount={notesLearnedCount}
-        active={this.isActive(topic)}
-        onClick={this.handleTopicClick} />
+        notesLearnedCount={notesLearnedCount} />
     )
-  }
-
-  setActiveId (activeId: number) {
-    this.setState({ activeId })
-  }
-
-  handleTopicClick (activeId: number) {
-    this.setActiveId(activeId)
   }
 
   componentDidMount () {
@@ -58,7 +36,10 @@ class Topics extends Component<TopicsProps, TopicsState> {
   }
 }
 
-const mapState = (state: RootState) => state.topics
+const mapState = (state: RootState) => ({
+  topics: state.topics.topics,
+  activeId: state.topics.activeId
+})
 const mapDispatch = { listTopics }
 
 const connector = connect(mapState, mapDispatch)
