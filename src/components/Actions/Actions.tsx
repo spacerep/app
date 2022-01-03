@@ -4,7 +4,7 @@ import style from './Actions.style'
 
 export type ActionName = 'add' |
   'view' |
-  'hide' |
+  'visibility' |
   'edit' |
   'import' |
   'export' |
@@ -26,7 +26,7 @@ export default class Actions extends Component<ActionsProps> {
   actionIcons: ActionIcons = {
     add: 'add',
     view: 'eye',
-    hide: 'eye-off',
+    visibility: 'eye-off',
     edit: 'pencil',
     import: 'download',
     export: 'upload',
@@ -35,7 +35,7 @@ export default class Actions extends Component<ActionsProps> {
   }
 
   scopeActions: ScopeActions = {
-    topic: ['add', 'hide', 'edit', 'import', 'export', 'delete'],
+    topic: ['add', 'visibility', 'edit', 'import', 'export', 'delete'],
     note: ['complete', 'edit', 'delete']
   }
 

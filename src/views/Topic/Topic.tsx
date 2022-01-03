@@ -1,26 +1,14 @@
 import React, { Component, Fragment } from 'react'
-import { connect, ConnectedProps } from 'react-redux'
-import { RootState } from '../../store'
-import { activeTopic } from '../../components/Topics/Topics.slice'
 import TopicHeader from '../../components/TopicHeader/TopicHeader'
 
-interface TopicProps extends ConnectedProps<typeof connector> {}
+interface TopicProps{}
 
-class Topic extends Component<TopicProps> {
+export default class Topic extends Component<TopicProps> {
   render () {
-    return this.props.activeTopic &&
+    return (
       <Fragment>
-        <TopicHeader
-          id={this.props.activeTopic.id}
-          title={this.props.activeTopic.title} />
+        <TopicHeader />
       </Fragment>
+    )
   }
 }
-
-const mapState = (state: RootState) => ({
-  activeTopic: activeTopic(state)
-})
-
-const connector = connect(mapState)
-
-export default connector(Topic)

@@ -1,32 +1,28 @@
 import React, { Component } from 'react'
-import Actions, { ActionName } from '../Actions/Actions'
-import Heading from '../Heading/Heading'
+import { connect, ConnectedProps } from 'react-redux'
 import style from './TopicHeader.style'
+import { RootState } from '../../store'
+import { activeTopic } from '../Topics/Topics.slice'
+import Heading from '../Heading/Heading'
+import TopicActions from '../TopicActions/TopicActions'
 
-interface TopicHeaderProps {
-  id: number
-  title: string
-}
+interface TopicHeaderProps extends ConnectedProps<typeof connector> {}
 
-export default class TopicHeader extends Component<TopicHeaderProps> {
-  constructor (props: TopicHeaderProps) {
-    super(props)
-    this.handleActionClick = this.handleActionClick.bind(this)
-  }
-
-  handleActionClick (action: ActionName, id: number) {
-    // TODO Handle action click
-  }
-
+class TopicHeader extends Component<TopicHeaderProps> {
   render () {
-    return (
+    const { activeTopic } = this.props
+    return activeTopic &&
       <div className={style.topicHeader}>
-        <Heading text={this.props.title} />
-        <Actions
-          id={this.props.id}
-          scope='topic'
-          onClick={this.handleActionClick} />
+        <Heading text={activeTopic.title} />
+        <TopicActions />
       </div>
-    )
   }
 }
+
+const mapState = (state: RootState) => ({
+  activeTopic: activeTopic(state)
+})
+
+const connector = connect(mapState)
+
+export default connector(TopicHeader)
