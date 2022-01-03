@@ -1,7 +1,6 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import Button from '../Button/Button'
 import InputFile from '../InputFile/InputFile'
-import TopicForm from '../TopicForm/TopicForm'
 
 interface NotesImportProps {}
 
@@ -34,7 +33,7 @@ export default class NotesImport
 
   render () {
     return (
-      <TopicForm heading="Import notes">
+      <Fragment>
         <InputFile
           name='notes'
           filename={this.state.notesFilename}
@@ -44,7 +43,7 @@ export default class NotesImport
         <Button
           text="Import notes"
           onClick={this.handleImportClick} />
-      </TopicForm>
+      </Fragment>
     )
   }
 }

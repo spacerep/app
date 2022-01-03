@@ -1,10 +1,9 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import Button from '../Button/Button'
 import HelperText from '../HelperText/HelperText'
 import Input from '../Input/Input'
 import InputFile from '../InputFile/InputFile'
 import Textarea from '../Textarea/Textarea'
-import TopicForm from '../TopicForm/TopicForm'
 
 type NoteModifyAction = 'add' | 'edit'
 type NoteModifyActionText = Record<NoteModifyAction, string>
@@ -61,7 +60,7 @@ export default class NoteModify
 
   render () {
     return (
-      <TopicForm heading={this.actionText}>
+      <Fragment>
         <Input
           name='heading'
           value={this.state.heading}
@@ -86,7 +85,7 @@ export default class NoteModify
         <Button
           text={this.actionText}
           onClick={this.handleModifyClick} />
-      </TopicForm>
+      </Fragment>
     )
   }
 }
