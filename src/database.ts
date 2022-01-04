@@ -26,9 +26,10 @@ export interface NoteData {
   heading: string
   content: string
   learned: boolean
+  media: MediaData
 }
 
-export type NoteCreationData = Omit<NoteData, 'id'>
+export type NoteCreationData = Omit<NoteData, 'id' | 'media'>
 
 export interface MediaData {
   noteId: number

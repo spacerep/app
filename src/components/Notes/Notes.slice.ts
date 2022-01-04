@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { NoteCreationData, NoteData } from '../../database'
+import { NoteCreationData, NoteData, TopicData } from '../../database'
 import noteRepository from '../../repositories/note.repository'
 
 export interface NotesState {
@@ -20,6 +20,12 @@ export const createNote = createAsyncThunk(
   async (payload: NoteCreatePayload) => {
     const { noteData, media } = payload
     return await noteRepository.create(noteData, media)
+  })
+
+export const exportNotes = createAsyncThunk(
+  'notes/export',
+  async (topic: TopicData) => {
+    return await noteRepository.export(topic)
   })
 
 export const notesSlice = createSlice({
