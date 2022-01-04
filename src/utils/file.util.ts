@@ -6,10 +6,21 @@ export default {
     return new Promise((resolve, reject) => {
       const reader = new FileReader()
       reader.addEventListener('load', () => {
-        const result = reader.result as null | string
-        if (result) resolve(result)
+        const dataUrl = reader.result as null | string
+        if (dataUrl) resolve(dataUrl)
       })
       reader.readAsDataURL(file)
+    })
+  },
+
+  async toContent (file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader()
+      reader.addEventListener('load', () => {
+        const content = reader.result as null | string
+        if (content) resolve(content)
+      })
+      reader.readAsText(file)
     })
   },
 

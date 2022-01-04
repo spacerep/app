@@ -1,15 +1,18 @@
 import React, { Component, Fragment } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { importNotes } from '../Notes/Notes.slice'
+import { RootState } from '../../store'
 import Button from '../Button/Button'
 import InputFile from '../InputFile/InputFile'
 
-interface NotesImportProps {}
+interface NotesImportProps extends ConnectedProps<typeof connector> {}
 
 interface NotesImportState {
   notes: File | null
   notesFilename: string
 }
 
-export default class NotesImport
+class NotesImport
   extends Component<NotesImportProps, NotesImportState> {
   constructor (props: NotesImportProps) {
     super(props)
@@ -28,7 +31,9 @@ export default class NotesImport
   }
 
   handleImportClick () {
-    // TODO Handle import click
+    const { notes } = this.state
+    const { activeTopicId: topicId } = this.props
+    if (notes && topicId) this.props.importNotes({ notes, topicId })
   }
 
   render () {
@@ -47,3 +52,13 @@ export default class NotesImport
     )
   }
 }
+
+const mapState = (state: RootState) => ({
+  activeTopicId: state.topics.activeId
+})
+
+const mapDispatch = { importNotes }
+
+const connector = connect(mapState, mapDispatch)
+
+export default connector(NotesImport)

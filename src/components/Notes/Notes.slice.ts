@@ -11,6 +11,11 @@ interface NoteCreatePayload {
   media: File | null
 }
 
+interface NotesImportPayload {
+  notes: File
+  topicId: number
+}
+
 const initialState: NotesState = {
   notes: []
 }
@@ -26,6 +31,13 @@ export const exportNotes = createAsyncThunk(
   'notes/export',
   async (topic: TopicData) => {
     return await noteRepository.export(topic)
+  })
+
+export const importNotes = createAsyncThunk(
+  'notes/import',
+  async (payload: NotesImportPayload) => {
+    const { notes, topicId } = payload
+    return await noteRepository.import(notes, topicId)
   })
 
 export const notesSlice = createSlice({

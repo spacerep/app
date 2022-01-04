@@ -1,0 +1,17 @@
+topic:
+  id: number
+  title: string
+  rep:
+    topicId: number
+    count: number
+    nextAt: string
+  notes:
+    id: number
+    topicId: number
+    heading: string
+    content: string
+    learned: boolean
+    media:
+      noteId: number
+      body: string
+      type: ['video', 'audio', 'image']
