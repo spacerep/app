@@ -1,4 +1,7 @@
 import React, { Component, Fragment } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { NoteCreationData } from '../../database'
+import { RootState } from '../../store'
 import Button from '../Button/Button'
 import HelperText from '../HelperText/HelperText'
 import Input from '../Input/Input'
@@ -8,19 +11,19 @@ import Textarea from '../Textarea/Textarea'
 type NoteModifyAction = 'add' | 'edit'
 type NoteModifyActionText = Record<NoteModifyAction, string>
 
-interface NoteModifyProps {
+interface NoteModifyProps extends ConnectedProps<typeof connector> {
   action: NoteModifyAction
+  onModify: (noteData: NoteCreationData, media: File | null) => void
 }
 
 interface NoteModifyState {
   heading: string
+  content: string
   media: File | null
   mediaFilename: string
-  note: string
 }
 
-export default class NoteModify
-  extends Component<NoteModifyProps, NoteModifyState> {
+class NoteModify extends Component<NoteModifyProps, NoteModifyState> {
   actionTexts: NoteModifyActionText = {
     add: 'Add note',
     edit: 'Edit note'
@@ -30,9 +33,9 @@ export default class NoteModify
     super(props)
     this.state = {
       heading: '',
+      content: '',
       media: null,
-      mediaFilename: '',
-      note: ''
+      mediaFilename: ''
     }
     this.handleInputChange = this.handleInputChange.bind(this)
     this.handleInputFileChange = this.handleInputFileChange.bind(this)
@@ -45,7 +48,7 @@ export default class NoteModify
 
   handleInputChange (name: string, value: string) {
     if (name === 'heading') this.setState({ heading: value })
-    else if (name === 'note') this.setState({ note: value })
+    else if (name === 'content') this.setState({ content: value })
   }
 
   handleInputFileChange (name: string, file: File | null, filename: string) {
@@ -55,7 +58,15 @@ export default class NoteModify
   }
 
   handleModifyClick () {
-    // TODO Handle modify click
+    if (!this.props.activeTopicId) return
+    const { heading, media, content } = this.state
+    const noteData = {
+      topicId: this.props.activeTopicId,
+      heading,
+      content,
+      learned: false
+    }
+    this.props.onModify(noteData, media)
   }
 
   render () {
@@ -74,8 +85,8 @@ export default class NoteModify
           onChange={this.handleInputFileChange} />
         <div>
           <Textarea
-            name='note'
-            value={this.state.note}
+            name='content'
+            value={this.state.content}
             placeholder='Note'
             rows={4}
             onChange={this.handleInputChange} />
@@ -89,3 +100,11 @@ export default class NoteModify
     )
   }
 }
+
+const mapState = (state: RootState) => ({
+  activeTopicId: state.topics.activeId
+})
+
+const connector = connect(mapState)
+
+export default connector(NoteModify)

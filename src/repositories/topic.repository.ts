@@ -8,20 +8,20 @@ export default {
   notes: database.notes,
   medias: database.medias,
 
-  async readRepetition (topic: TopicData) {
+  async withRepetition (topic: TopicData) {
     const { id: topicId } = topic
     const repetition = await this.repetitions.get({ topicId })
     if (repetition) topic.repetition = repetition
     return topic
   },
 
-  async readNotesCount (topic: TopicData) {
+  async withNotesCount (topic: TopicData) {
     const { id: topicId } = topic
     topic.notesCount = await this.notes.where({ topicId }).count()
     return topic
   },
 
-  async readNotesLearnedCount (topic: TopicData) {
+  async withNotesLearnedCount (topic: TopicData) {
     const { id: topicId } = topic
     topic.notesLearnedCount = await this.notes
       .where({ topicId, learned: true })
@@ -29,15 +29,15 @@ export default {
     return topic
   },
 
-  async withEagerLoad (topic: TopicData) {
-    topic = await this.readRepetition(topic)
-    topic = await this.readNotesCount(topic)
-    topic = await this.readNotesLearnedCount(topic)
+  async withRelations (topic: TopicData) {
+    topic = await this.withRepetition(topic)
+    topic = await this.withNotesCount(topic)
+    topic = await this.withNotesLearnedCount(topic)
     return topic
   },
 
-  async withEagerLoadEach (topics: TopicData[]) {
-    return Promise.map(topics, topic => this.withEagerLoad(topic))
+  async withRelationsEach (topics: TopicData[]) {
+    return Promise.map(topics, topic => this.withRelations(topic))
   },
 
   async create (topicData: TopicCreationData) {
@@ -50,7 +50,7 @@ export default {
       }
       await this.repetitions.put(repetition)
       const topic = await this.topics.get(topicId) as TopicData
-      return this.withEagerLoad(topic)
+      return this.withRelations(topic)
     } catch (error) {
       // TODO
       return null
@@ -62,7 +62,7 @@ export default {
       const topics = await this.topics
         .reverse()
         .toArray() as TopicData[]
-      return this.withEagerLoadEach(topics)
+      return this.withRelationsEach(topics)
     } catch (error) {
       return null
     }

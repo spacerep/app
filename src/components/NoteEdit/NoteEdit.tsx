@@ -1,8 +1,23 @@
 import React, { Component } from 'react'
 import NoteModify from '../NoteModify/NoteModify'
 
-export default class NoteEdit extends Component {
+interface NoteEditProps {}
+
+export default class NoteEdit extends Component<NoteEditProps> {
+  constructor (props: NoteEditProps) {
+    super(props)
+    this.handleEditClick = this.handleEditClick.bind(this)
+  }
+
+  handleEditClick () {
+    // TODO
+  }
+
   render () {
-    return <NoteModify action='edit' />
+    return (
+      <NoteModify
+        action='edit'
+        onModify={this.handleEditClick} />
+    )
   }
 }
