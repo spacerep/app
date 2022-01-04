@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { RootState } from '../../store'
 import { activeTopic, deleteTopic } from '../Topics/Topics.slice'
 import { toggleActiveForm } from '../TopicActionForm/TopicActionForm.slice'
-import { exportNotes } from '../Notes/Notes.slice'
+import { exportNotes, toggleVisibility } from '../Notes/Notes.slice'
 import Actions, { ActionName } from '../Actions/Actions'
 
 interface TopicActionsProps extends ConnectedProps<typeof connector> {}
@@ -19,7 +19,7 @@ class TopicActions extends Component<TopicActionsProps> {
       case 'add':
         return this.props.toggleTopicActiveForm('noteAdd')
       case 'visibility':
-        return null
+        return this.props.toggleNotesVisibility()
       case 'edit':
         return this.props.toggleTopicActiveForm('topicTitleEdit')
       case 'import':
@@ -53,7 +53,8 @@ const mapState = (state: RootState) => {
 const mapDispatch = {
   deleteTopic,
   toggleTopicActiveForm: toggleActiveForm,
-  exportNotes
+  exportNotes,
+  toggleNotesVisibility: toggleVisibility
 }
 
 const connector = connect(mapState, mapDispatch)
