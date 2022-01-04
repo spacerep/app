@@ -24,6 +24,13 @@ interface NoteModifyState {
 }
 
 class NoteModify extends Component<NoteModifyProps, NoteModifyState> {
+  initialState: NoteModifyState = {
+    heading: '',
+    content: '',
+    media: null,
+    mediaFilename: ''
+  }
+
   actionTexts: NoteModifyActionText = {
     add: 'Add note',
     edit: 'Edit note'
@@ -31,12 +38,7 @@ class NoteModify extends Component<NoteModifyProps, NoteModifyState> {
 
   constructor (props: NoteModifyProps) {
     super(props)
-    this.state = {
-      heading: '',
-      content: '',
-      media: null,
-      mediaFilename: ''
-    }
+    this.state = this.initialState
     this.handleInputChange = this.handleInputChange.bind(this)
     this.handleInputFileChange = this.handleInputFileChange.bind(this)
     this.handleModifyClick = this.handleModifyClick.bind(this)
@@ -44,6 +46,10 @@ class NoteModify extends Component<NoteModifyProps, NoteModifyState> {
 
   get actionText () {
     return this.actionTexts[this.props.action]
+  }
+
+  resetFields () {
+    this.setState(this.initialState)
   }
 
   handleInputChange (name: string, value: string) {
@@ -59,7 +65,8 @@ class NoteModify extends Component<NoteModifyProps, NoteModifyState> {
 
   handleModifyClick () {
     if (!this.props.activeTopicId) return
-    const { heading, media, content } = this.state
+    const { heading, content, media } = this.state
+    if (!heading || !content) return
     const noteData = {
       topicId: this.props.activeTopicId,
       heading,
@@ -67,6 +74,7 @@ class NoteModify extends Component<NoteModifyProps, NoteModifyState> {
       learned: false
     }
     this.props.onModify(noteData, media)
+    this.resetFields()
   }
 
   render () {
