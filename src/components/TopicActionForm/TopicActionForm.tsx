@@ -6,6 +6,7 @@ import Heading from '../Heading/Heading'
 import NoteEdit from '../NoteEdit/NoteEdit'
 import NoteAdd from '../NoteAdd/NoteAdd'
 import NotesImport from '../NotesImport/NotesImport'
+import TopicTitleEdit from '../TopicTitleEdit/TopicTitleEdit'
 
 export type TopicActionFormName = 'topicTitleEdit' |
   'noteAdd' |
@@ -33,7 +34,7 @@ class TopicActionForm extends Component<TopicActionFormProps> {
   get form () {
     switch (this.props.activeForm) {
       case 'topicTitleEdit':
-        return null
+        return <TopicTitleEdit />
       case 'noteAdd':
         return <NoteAdd />
       case 'noteEdit':

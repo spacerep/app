@@ -68,6 +68,16 @@ export default {
     }
   },
 
+  async updateTitle (id: number, title: string) {
+    try {
+      await this.topics.update(id, { title })
+      const topic = await this.topics.get(id) as TopicData
+      return this.withRelations(topic)
+    } catch (error) {
+      return null
+    }
+  },
+
   async delete (id: number) {
     try {
       const topic = await this.topics.get(id)

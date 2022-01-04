@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit'
-import { find, reject } from 'lodash'
+import { find, findIndex, reject } from 'lodash'
 import { TopicData } from '../../database'
 import topicRepository from '../../repositories/topic.repository'
 import { RootState } from '../../store'
@@ -14,6 +14,11 @@ const initialState: TopicsState = {
   activeId: null
 }
 
+interface TopicUpdateTitlePayload {
+  id: number
+  title: string
+}
+
 export const createTopic = createAsyncThunk(
   'topics/create',
   async (title: string) => {
@@ -25,6 +30,13 @@ export const createTopic = createAsyncThunk(
 export const listTopics = createAsyncThunk('topics/list', async () => {
   return await topicRepository.list()
 })
+
+export const updateTopicTitle = createAsyncThunk(
+  'topics/title/update',
+  async (payload: TopicUpdateTitlePayload) => {
+    const { id, title } = payload
+    return await topicRepository.updateTitle(id, title)
+  })
 
 export const deleteTopic = createAsyncThunk(
   'topics/delete',
@@ -67,6 +79,13 @@ export const topicsSlice = createSlice({
     builder.addCase(createTopic.fulfilled, (state, action) => {
       const { payload: topic } = action
       if (topic) state.topics.unshift(topic)
+    })
+    builder.addCase(updateTopicTitle.fulfilled, (state, action) => {
+      const { payload: updatedTopic } = action
+      if (updatedTopic) {
+        const index = findIndex(state.topics, { id: updatedTopic.id })
+        state.topics.splice(index, 1, updatedTopic)
+      }
     })
     builder.addCase(deleteTopic.fulfilled, (state, action) => {
       const { payload: topicDeleted } = action
