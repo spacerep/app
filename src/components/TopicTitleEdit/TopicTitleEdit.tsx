@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { updateTopicTitle } from '../Topics/Topics.slice'
+import { toggleActiveForm } from '../TopicActionForm/TopicActionForm.slice'
 import Button from '../Button/Button'
 import Input from '../Input/Input'
 import { RootState } from '../../store'
@@ -24,10 +25,6 @@ class TopicTitleEdit
     this.handleEditClick = this.handleEditClick.bind(this)
   }
 
-  resetFields () {
-    this.setState(this.initialState)
-  }
-
   handleInputChange (name: string, value: string) {
     if (name === 'title') this.setState({ title: value })
   }
@@ -38,7 +35,7 @@ class TopicTitleEdit
     if (!title || !activeTopicId) return
     const payload = { id: activeTopicId, title }
     this.props.updateTopicTitle(payload)
-    this.resetFields()
+    this.props.toggleActiveForm('topicTitleEdit')
   }
 
   render () {
@@ -61,7 +58,7 @@ const mapState = (state: RootState) => ({
   activeTopicId: state.topics.activeId
 })
 
-const mapDispatch = { updateTopicTitle }
+const mapDispatch = { updateTopicTitle, toggleActiveForm }
 
 const connector = connect(mapState, mapDispatch)
 
