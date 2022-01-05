@@ -14,13 +14,11 @@ interface TopicTitleEditState {
 
 class TopicTitleEdit
   extends Component<TopicTitleEditProps, TopicTitleEditState> {
-  initialState: TopicTitleEditState = {
-    title: ''
-  }
-
   constructor (props: TopicTitleEditProps) {
     super(props)
-    this.state = this.initialState
+    this.state = {
+      title: ''
+    }
     this.handleInputChange = this.handleInputChange.bind(this)
     this.handleEditClick = this.handleEditClick.bind(this)
   }

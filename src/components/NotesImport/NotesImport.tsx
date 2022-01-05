@@ -15,20 +15,14 @@ interface NotesImportState {
 
 class NotesImport
   extends Component<NotesImportProps, NotesImportState> {
-  initialState = {
-    notes: null,
-    notesFilename: ''
-  }
-
   constructor (props: NotesImportProps) {
     super(props)
-    this.state = this.initialState
+    this.state = {
+      notes: null,
+      notesFilename: ''
+    }
     this.handleInputFileChange = this.handleInputFileChange.bind(this)
     this.handleImportClick = this.handleImportClick.bind(this)
-  }
-
-  resetFields () {
-    this.setState(this.initialState)
   }
 
   handleInputFileChange (name: string, file: File | null, filename: string) {
@@ -42,7 +36,6 @@ class NotesImport
     const { activeTopicId: topicId } = this.props
     if (notes && topicId) this.props.importNotes({ notes, topicId })
     this.props.toggleActiveForm('notesImport')
-    this.resetFields()
   }
 
   render () {
