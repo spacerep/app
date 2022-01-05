@@ -1,12 +1,16 @@
 import React, { Component, MouseEvent } from 'react'
 
 export type IconSize = 'regular' | 'medium'
+type IconType = 'line' | 'fill'
+type IconColor = 'tertiary' | 'theme'
 
 type SizeStyle = Record<IconSize, string>
 
 interface IconProps {
   name: string
   size: IconSize
+  type?: IconType
+  color?: IconColor
   onClick?: (event: MouseEvent) => void
 }
 
@@ -22,9 +26,13 @@ export default class Icon extends Component<IconProps> {
   }
 
   get style () {
+    const { name, color, type, onClick } = this.props
     const size = this.sizeStyles[this.props.size]
-    const cursor = this.props.onClick && 'cursor-pointer'
-    return `ri-${this.props.name}-line text-tertiary ${size} ${cursor}`
+    const cursor = onClick && 'cursor-pointer'
+    const iconType: IconType = type || 'line'
+    const iconColor = `text-${color || 'tertiary'}`
+    const icon = `ri-${name}-${iconType}`
+    return `${icon} ${size} ${cursor} ${iconColor}`
   }
 
   handleClick (event: MouseEvent) {

@@ -17,6 +17,7 @@ module.exports = {
         split: 'linear-gradient(to right, #191A1F 0%, #191A1F 50%, #25262C 50%, #25262C 100%)'
       },
       textColor: {
+        theme: '#3D50FA',
         primary: '#f5f5f5',
         secondary: '#c6c6c6',
         tertiary: '#999999'
