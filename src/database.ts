@@ -23,10 +23,10 @@ export type RepetitionCreationData = RepetitionData
 export interface NoteData {
   id: number
   topicId: number
-  heading: string
-  content: string
+  heading: string | null
+  content: string | null
   learned: boolean
-  media: MediaData
+  media: MediaData | null
 }
 
 export type NoteCreationData = Omit<NoteData, 'id' | 'media'>

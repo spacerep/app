@@ -66,7 +66,7 @@ class NoteModify extends Component<NoteModifyProps, NoteModifyState> {
   handleModifyClick () {
     if (!this.props.activeTopicId) return
     const { heading, content, media } = this.state
-    if (!heading || !content) return
+    if (!heading && !content && !media) return
     const noteData = {
       topicId: this.props.activeTopicId,
       heading,

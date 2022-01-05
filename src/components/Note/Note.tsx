@@ -5,8 +5,8 @@ import Icon from '../Icon/Icon'
 import style from './Note.style'
 
 interface NoteProps {
-  heading: string
-  content: string
+  heading: string | null
+  content: string | null
   learned: boolean
   media: MediaData | null
 }
@@ -47,7 +47,7 @@ export default class Note extends Component<NoteProps> {
         <img
           className={style.media}
           src={body}
-          alt={heading} />
+          alt={heading || 'image'} />
       )
     } else if (type === 'video') {
       return (
