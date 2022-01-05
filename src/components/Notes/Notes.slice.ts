@@ -65,6 +65,10 @@ export const notesSlice = createSlice({
       const { payload: notes } = action
       if (notes) state.notes = notes
     })
+    builder.addCase(importNotes.fulfilled, (state, action) => {
+      const { payload: notes } = action
+      if (notes) state.notes = notes
+    })
   }
 })
 

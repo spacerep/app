@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { importNotes } from '../Notes/Notes.slice'
 import { RootState } from '../../store'
+import { importNotes } from '../Notes/Notes.slice'
+import { toggleActiveForm } from '../TopicActionForm/TopicActionForm.slice'
 import Button from '../Button/Button'
 import InputFile from '../InputFile/InputFile'
 
@@ -40,6 +41,7 @@ class NotesImport
     const { notes } = this.state
     const { activeTopicId: topicId } = this.props
     if (notes && topicId) this.props.importNotes({ notes, topicId })
+    this.props.toggleActiveForm('notesImport')
     this.resetFields()
   }
 
@@ -64,7 +66,7 @@ const mapState = (state: RootState) => ({
   activeTopicId: state.topics.activeId
 })
 
-const mapDispatch = { importNotes }
+const mapDispatch = { importNotes, toggleActiveForm }
 
 const connector = connect(mapState, mapDispatch)
 

@@ -1,4 +1,5 @@
 import { Promise } from 'bluebird'
+import { compact } from 'lodash'
 import database, {
   MediaCreationData,
   NoteCreationData,
@@ -98,9 +99,10 @@ export default {
     try {
       const content = await fileUtil.toContent(notesFile)
       const notes = JSON.parse(content) as NoteData[]
-      return Promise.map(notes, note => {
+      const importedNotes = await Promise.map(notes, note => {
         return this.replicate(note, topicId)
       })
+      return compact(importedNotes)
     } catch (error) {
       return null
     }
