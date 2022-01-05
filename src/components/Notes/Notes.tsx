@@ -32,11 +32,10 @@ class Notes extends Component<NotesProps> {
   }
 
   render () {
-    return (
+    return this.props.activeTopicId &&
       <div className={style.notes}>
         {this.notes}
       </div>
-    )
   }
 }
 

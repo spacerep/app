@@ -94,6 +94,7 @@ export const topicsSlice = createSlice({
           state.topics,
           topic => topic.id === topicDeleted.id
         )
+        state.activeId = null
       }
     })
   }
