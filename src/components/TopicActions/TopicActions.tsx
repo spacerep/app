@@ -29,8 +29,13 @@ class TopicActions extends Component<TopicActionsProps> {
         if (activeTopic) this.props.exportNotes(activeTopic)
         return
       }
-      case 'delete':
-        return this.props.deleteTopic(topicId)
+      case 'delete': {
+        const deleteConfirm = confirm('Are you sure to delete this topic?')
+        if (deleteConfirm) this.props.deleteTopic(topicId)
+        return null
+      }
+      default:
+        return null
     }
   }
 
