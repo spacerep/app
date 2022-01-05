@@ -40,7 +40,7 @@ export default {
         await this.createMedia(mediaData)
       }
       const note = await this.notes.get(noteId) as NoteData
-      return note
+      return this.withMedia(note)
     } catch (error) {
       return null
     }
