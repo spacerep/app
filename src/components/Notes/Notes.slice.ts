@@ -57,6 +57,10 @@ export const notesSlice = createSlice({
     }
   },
   extraReducers: (builder) => {
+    builder.addCase(createNote.fulfilled, (state, action) => {
+      const { payload: note } = action
+      if (note) state.notes.unshift(note)
+    })
     builder.addCase(listNotes.fulfilled, (state, action) => {
       const { payload: notes } = action
       if (notes) state.notes = notes

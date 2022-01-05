@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { NoteCreationData } from '../../database'
 import { createNote } from '../Notes/Notes.slice'
+import { toggleActiveForm } from '../TopicActionForm/TopicActionForm.slice'
 import NoteModify from '../NoteModify/NoteModify'
 
 interface NoteAddProps extends ConnectedProps<typeof connector> {}
@@ -15,6 +16,7 @@ class NoteAdd extends Component<NoteAddProps> {
   handleAddClick (noteData: NoteCreationData, media: File | null) {
     const payload = { noteData, media }
     this.props.createNote(payload)
+    this.props.toggleActiveForm('noteAdd')
   }
 
   render () {
@@ -26,7 +28,7 @@ class NoteAdd extends Component<NoteAddProps> {
   }
 }
 
-const mapDispatch = { createNote }
+const mapDispatch = { createNote, toggleActiveForm }
 
 const connector = connect(null, mapDispatch)
 
