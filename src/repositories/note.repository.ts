@@ -74,7 +74,9 @@ export default {
 
   async list (topicId: number) {
     try {
-      const notes = await this.whereTopic(topicId).toArray() as NoteData[]
+      const notes = await this.whereTopic(topicId)
+        .reverse()
+        .toArray() as NoteData[]
       return await this.withMediaEach(notes)
     } catch (error) {
       return null

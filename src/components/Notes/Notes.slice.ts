@@ -29,6 +29,12 @@ export const createNote = createAsyncThunk(
     return await noteRepository.create(noteData, media)
   })
 
+export const listNotes = createAsyncThunk(
+  'notes/list',
+  async (topicId: number) => {
+    return await noteRepository.list(topicId)
+  })
+
 export const exportNotes = createAsyncThunk(
   'notes/export',
   async (topic: TopicData) => {
@@ -49,6 +55,12 @@ export const notesSlice = createSlice({
     toggleVisibility (state) {
       state.visibility = !state.visibility
     }
+  },
+  extraReducers: (builder) => {
+    builder.addCase(listNotes.fulfilled, (state, action) => {
+      const { payload: notes } = action
+      if (notes) state.notes = notes
+    })
   }
 })
 
