@@ -32,7 +32,7 @@ class Topics extends Component<TopicsProps> {
   }
 
   render () {
-    return this.props.topics.map(this.topic)
+    return [...this.props.topics].reverse().map(this.topic)
   }
 }
 

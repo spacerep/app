@@ -21,7 +21,7 @@ class Notes extends Component<NotesProps> {
   }
 
   get notes () {
-    return this.props.notes.map(note => this.note(note))
+    return [...this.props.notes].reverse().map(note => this.note(note))
   }
 
   componentDidUpdate (props: NotesProps) {
