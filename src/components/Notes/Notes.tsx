@@ -5,6 +5,8 @@ import { NoteData } from '../../database'
 import { RootState } from '../../store'
 import { listNotes } from './Notes.slice'
 import Note from '../Note/Note'
+import { isEmpty } from 'lodash'
+import Heading from '../Heading/Heading'
 
 interface NotesProps extends ConnectedProps<typeof connector> {}
 
@@ -21,7 +23,8 @@ class Notes extends Component<NotesProps> {
   }
 
   get notes () {
-    return [...this.props.notes].reverse().map(note => this.note(note))
+    const notes = [...this.props.notes]
+    return isEmpty(notes) ? <Heading text="Click the + icon to add a new note" className='text-center py-5' /> : notes.reverse().map(note => this.note(note))
   }
 
   componentDidUpdate (props: NotesProps) {

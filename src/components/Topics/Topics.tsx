@@ -4,6 +4,8 @@ import { TopicData } from '../../database'
 import { RootState } from '../../store'
 import { listTopics } from './Topics.slice'
 import Topic from '../Topic/Topic'
+import { isEmpty } from 'lodash'
+import Heading from '../Heading/Heading'
 
 interface TopicsProps extends ConnectedProps<typeof connector> {}
 
@@ -32,7 +34,8 @@ class Topics extends Component<TopicsProps> {
   }
 
   render () {
-    return [...this.props.topics].reverse().map(this.topic)
+    const topics = [...this.props.topics]
+    return isEmpty(topics) ? <Heading text="Click the + icon to add a new topic" className='text-center' /> : topics.reverse().map(this.topic)
   }
 }
 
